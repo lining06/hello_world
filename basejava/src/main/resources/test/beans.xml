@@ -1,0 +1,7 @@
+<beans>
+    <bean id="user" class="org.mashibing.dao.UserDAOImpl"></bean>
+    <bean id="userService" class="org.mashibing.service.UserService">
+        <property name="UserDAO" bean="user"></property>
+    </bean>
+
+</beans>

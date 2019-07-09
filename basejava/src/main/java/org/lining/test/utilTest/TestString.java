@@ -15,5 +15,12 @@ public class TestString {
         System.out.println(System.identityHashCode(a));
         System.out.println(System.identityHashCode(b));
         System.out.println(System.identityHashCode(c));
+
+
+        System.out.println("凯文傻不傻");
+
+        if(b.equals(a)){
+            System.out.println("凯文不傻");
+        }
     }
 }
