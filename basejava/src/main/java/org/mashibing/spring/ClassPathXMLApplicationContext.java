@@ -44,7 +44,7 @@ public class ClassPathXMLApplicationContext implements BeanFactory {
                     if (bean != null){
                         Method method = beanClassObject.getClass().getMethod(
                                 "set" + attrName,
-                                new Class<?>[]{bean.getClass().getInterfaces()[0]}
+                                bean.getClass().getInterfaces()[0]
                                 );
                         method.invoke(beans.get(beanName), bean);
                     }
