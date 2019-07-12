@@ -3,8 +3,6 @@ package org.mashibing.spring;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
-import org.mashibing.dao.UserDAO;
-import org.mashibing.service.UserService;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
