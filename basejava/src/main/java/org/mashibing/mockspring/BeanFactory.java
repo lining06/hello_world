@@ -1,4 +1,4 @@
-package org.mashibing.spring;
+package org.mashibing.mockspring;
 
 public interface BeanFactory {
 

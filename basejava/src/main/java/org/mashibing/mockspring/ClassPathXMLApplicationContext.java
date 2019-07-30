@@ -1,4 +1,4 @@
-package org.mashibing.spring;
+package org.mashibing.mockspring;
 
 import org.jdom2.Document;
 import org.jdom2.Element;

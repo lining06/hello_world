@@ -1,7 +1,6 @@
-package org.mashibing.spring;
+package org.mashibing.mockspring;
 
 import org.junit.Test;
-import org.mashibing.dao.UserDAO;
 import org.mashibing.model.User;
 import org.mashibing.service.UserService;
 
