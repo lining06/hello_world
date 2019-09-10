@@ -5,6 +5,7 @@
 package org.gupao.mybatis;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author lining
@@ -12,8 +13,14 @@ import lombok.Data;
  */
 
 @Data
+@ToString
 public class HelloWorld {
 
     private long id;
     private String name;
+
+    @Override
+    public String toString(){
+        return "HelloWorld:id=" + id + ",name=" + name;
+    }
 }
