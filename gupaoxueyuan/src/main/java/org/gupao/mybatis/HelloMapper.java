@@ -10,5 +10,5 @@ package org.gupao.mybatis;
  */
 public interface HelloMapper {
 
-    String selectHello(long id);
+    HelloWorld selectHello(long id);
 }

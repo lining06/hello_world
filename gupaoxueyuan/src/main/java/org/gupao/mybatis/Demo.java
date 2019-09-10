@@ -21,7 +21,7 @@ public class Demo {
 
     public static SqlSession getSqlSession() throws FileNotFoundException {
         //配置文件
-        String resource = "mybatisConfit.xml";
+        String resource = "mybatis-config.xml";
 
         try {
             InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -42,7 +42,7 @@ public class Demo {
 //        Environment environment =
 //                new Environment("development", transactionFactory, dataSource);
 //        Configuration configuration = new Configuration(environment);
-//        configuration.addMapper(BlogMapper.class);
+//        configuration.addMapper(HelloMapper.class);
 //        SqlSessionFactory sqlSessionFactory =
 //                new SqlSessionFactoryBuilder().build(configuration);
         return null;
@@ -55,8 +55,8 @@ public class Demo {
 
             //第一种方法
             HelloMapper mapper = sqlSession.getMapper(HelloMapper.class);
-            String name = mapper.selectHello(1);
-            System.out.println(name);
+            HelloWorld helloWorld  = mapper.selectHello(2);
+            System.out.println(helloWorld);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
