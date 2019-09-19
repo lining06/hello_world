@@ -33,6 +33,7 @@ public class ClassPathXMLApplicationContext implements BeanFactory {
             String beanName = element.getAttributeValue("id");
             Object beanClassObject = beans.get(beanName);
 
+            //属性依赖注入
             List<Element> properties = element.getChildren("property");
             if (properties != null){
                 for (Element property : properties) {
