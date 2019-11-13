@@ -4,6 +4,8 @@
  */
 package org.dubbo.register;
 
+import org.dubbo.framework.Url;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,17 @@ import java.util.Map;
  */
 public class Register {
 
-    private Map<String, Map<Url, Class>> REGISTER = new HashMap<>();
+    private static Map<String, Map<Url, Class>> REGISTER = new HashMap<String, Map<Url, Class>>();
 
+    public static void regist(Url url, String interfaceName, Class implClass){
+
+        Map<Url, Class> urlClass = new HashMap<>();
+        urlClass.put(url, implClass);
+        REGISTER.put(interfaceName, urlClass);
+    }
+
+    public static Map<Url, Class> getService(String interfaceName){
+
+        return REGISTER.get(interfaceName);
+    }
 }

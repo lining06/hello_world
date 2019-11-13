@@ -2,7 +2,7 @@
  * Alipay.com Inc.
  * Copyright (c) 2004-2019 All Rights Reserved.
  */
-package org.dubbo.register;
+package org.dubbo.framework;
 
 import lombok.Data;
 
@@ -16,4 +16,13 @@ public class Url {
     private String hostName;
 
     private Integer port;
+
+    public Url(String hostName, Integer port) {
+        this.hostName = hostName;
+        this.port = port;
+    }
+
+    public static Url getUrl(){
+        return new Url("localhost", 8080);
+    }
 }

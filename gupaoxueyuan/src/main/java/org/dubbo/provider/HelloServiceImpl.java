@@ -12,6 +12,7 @@ public class HelloServiceImpl implements HelloService{
 
     @Override
     public String sayHelloDubbo(String name) {
-        return null;
+        System.out.println("hello " + name);
+        return "hello " + name;
     }
 }
