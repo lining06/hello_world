@@ -10,6 +10,8 @@ import com.rabbitmq.client.Channel;
 /**
  * @author lining
  * @version $Id: Send.java, v 0.1 2019-11-27 3:04 PM lining Exp $
+ *
+ * mq管理界面：http://45.76.0.226:15672/
  */
 public class Send {
 
