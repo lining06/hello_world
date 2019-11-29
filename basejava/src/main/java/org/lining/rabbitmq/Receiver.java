@@ -4,6 +4,7 @@
  */
 package org.lining.rabbitmq;
 
+import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
