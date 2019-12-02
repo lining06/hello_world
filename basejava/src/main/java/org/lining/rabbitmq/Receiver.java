@@ -4,7 +4,6 @@
  */
 package org.lining.rabbitmq;
 
-import com.rabbitmq.client.CancelCallback;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -26,17 +25,45 @@ public class Receiver {
         try {
             Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
-            channel.queueDeclare(Send.QUEUE_NAME, false, false, false, null);
+
+            // 正常情况下，消息接收会按顺序分发消息
+            // 这个属性：指该消费者在接收到队列里的消息但没有返回确认结果之前,队列不会将新的消息分发给该消费者。而是发给其它消费者，可用于分散单机压力造成的消息堆积。
+            channel.basicQos(Send.PREFETCH);
+            channel.queueDeclare(Send.QUEUE_NAME, Send.DURABLE, false, false, null);
             System.out.println("监听消息中。。。");
 
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
-                System.out.println(" [x] Received '" + message + "'");
+                try {
+                    doWork(message);
+                }finally {
+                    //手动ack
+                    channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+                    System.out.println("[Done, now ack]" + delivery.getEnvelope().getDeliveryTag());
+                }
+
             };
-            channel.basicConsume(Send.QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+
+            //设置非自动ack表示
+            boolean autoAck = false;
+            channel.basicConsume(Send.QUEUE_NAME, autoAck, deliverCallback, consumerTag -> { });
 
         }catch (Exception e){
             e.printStackTrace();
+        }
+
+    }
+
+    private static void doWork(String message) {
+        System.out.println("[Received message] '" + message + "'");
+        for (char c : message.toCharArray()) {
+            if (c == '.'){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("sleep err" + e.getMessage());
+                }
+            }
         }
 
     }
