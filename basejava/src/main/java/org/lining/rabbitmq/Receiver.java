@@ -9,11 +9,22 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
+import static org.lining.rabbitmq.Send.EXCHANGE_NAME;
+
 /**
  * @author lining
  * @version $Id: Receiver.java, v 0.1 2019-11-27 4:50 PM lining Exp $
  */
 public class Receiver {
+
+    /**
+     * 队列信息
+     */
+    public static final String QUEUE_NAME = "queue_wy";
+    //单机同时处理消息的个数
+    public static final int PREFETCH = 1;
+    //是否持久化队列
+    public static final boolean DURABLE = false;
 
     public static void main(String[] args) {
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -28,10 +39,10 @@ public class Receiver {
 
             // 正常情况下，消息接收会按顺序分发消息
             // 这个属性：指该消费者在接收到队列里的消息但没有返回确认结果之前,队列不会将新的消息分发给该消费者。而是发给其它消费者，可用于分散单机压力造成的消息堆积。
-            channel.basicQos(Send.PREFETCH);
-            channel.queueDeclare(Send.QUEUE_NAME, Send.DURABLE, false, false, null);
-            System.out.println("监听消息中。。。");
-
+            channel.basicQos(PREFETCH);
+//            channel.queueDeclare(Send.QUEUE_NAME, Send.DURABLE, false, false, null);
+            String queueName = channel.queueDeclare().getQueue();
+            channel.queueBind(queueName, Send.EXCHANGE_NAME, "");
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");
                 try {
@@ -39,14 +50,14 @@ public class Receiver {
                 }finally {
                     //手动ack
                     channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-                    System.out.println("[Done, now ack]" + delivery.getEnvelope().getDeliveryTag());
+                    System.out.println("[Done, now ack] " + delivery.getEnvelope().getDeliveryTag());
                 }
 
             };
 
             //设置非自动ack表示
             boolean autoAck = false;
-            channel.basicConsume(Send.QUEUE_NAME, autoAck, deliverCallback, consumerTag -> { });
+            channel.basicConsume(queueName, autoAck, deliverCallback, consumerTag -> { });
 
         }catch (Exception e){
             e.printStackTrace();

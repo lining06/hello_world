@@ -27,13 +27,10 @@ public class Send {
     public static final int PORT = 5672;
 
     /**
-     * 队列信息
+     * 交换机信息
      */
-    public static final String QUEUE_NAME = "hello_my_queue";
-    //是否持久化队列
-    public static final boolean DURABLE = true;
-    //单机同时处理消息的个数
-    public static final int PREFETCH = 1;
+    public static final String EXCHANGE_NAME = "hello_exchange";
+
 
     public static void main(String[] args) {
         ConnectionFactory factory = new ConnectionFactory();
@@ -48,12 +45,12 @@ public class Send {
                  Channel channel = connection.createChannel()) {
                 while (true){
                     String message = scanner.nextLine();
-                    System.out.println("message is " + message);
                     //声明队列
-                    channel.queueDeclare(QUEUE_NAME, DURABLE, false, false, null);
+//                    channel.queueDeclare(QUEUE_NAME, DURABLE, false, false, null);
+                    channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 
                     //发布消息
-                    channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+                    channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes());
                     System.out.println("send message success: " + message);
                 }
             }catch (Exception e){
