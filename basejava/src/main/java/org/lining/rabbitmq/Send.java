@@ -46,11 +46,11 @@ public class Send {
                 while (true){
                     String message = scanner.nextLine();
                     //声明队列
-//                    channel.queueDeclare(QUEUE_NAME, DURABLE, false, false, null);
-                    channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
+                    channel.queueDeclare(Receiver.QUEUE_NAME, Receiver.DURABLE, false, false, null);
+//                    channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 
                     //发布消息
-                    channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes());
+                    channel.basicPublish("", Receiver.QUEUE_NAME, null, message.getBytes());
                     System.out.println("send message success: " + message);
                 }
             }catch (Exception e){

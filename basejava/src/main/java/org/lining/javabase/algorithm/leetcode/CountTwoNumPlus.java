@@ -5,6 +5,7 @@
 package org.lining.javabase.algorithm.leetcode;
 
 import com.alibaba.fastjson.JSON;
+import org.lining.javabase.algorithm.Node;
 
 /**
  * @author lining
@@ -35,13 +36,6 @@ public class CountTwoNumPlus {
      输出：7 -> 0 -> 8
      原因：342 + 465 = 807
      */
-    public static class Node{
-        public int value;
-        public Node next;
-        Node(int value){
-            this.value = value;
-        }
-    }
 
     //时间复杂度：O(max(m, n)) 空间复杂度：O(max(m, n)) 新列表的长度最多为 max(m,n) + 1
     public Node countTwo(Node first, Node second){
