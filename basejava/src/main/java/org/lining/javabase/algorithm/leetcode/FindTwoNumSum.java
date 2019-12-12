@@ -8,7 +8,9 @@ import com.alibaba.fastjson.JSON;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +24,7 @@ public class FindTwoNumSum {
         LocalDateTime before = LocalDateTime.now();
         System.out.println(JSON.toJSONString(twoSum2(new int[]{2,11,15,7,312,314,314,4314,43124,143124,43124,43124,431,431, 8}, 19)));
         System.out.println(Duration.between(before, LocalDateTime.now()).toMillis());
+        List a = new ArrayList();
     }
 
     /**

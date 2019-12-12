@@ -23,7 +23,7 @@ public class CountTwoNumPlus {
         node2.next.next = new Node(7);
         System.out.println(JSON.toJSON(node));
         System.out.println(JSON.toJSON(node2));
-        System.out.println(JSON.toJSON(countTwoNumPlus.countTwo(node, node2)));
+        System.out.println(JSON.toJSON(countTwoNumPlus.countTwoMine(node, node2)));
     }
     /**
      * 两数相加
@@ -62,6 +62,34 @@ public class CountTwoNumPlus {
             if (out > 0){
                 currentResult.next = new Node(out);
             }
+        }
+
+        return result.next;
+    }
+
+    //我的练习
+    public Node countTwoMine(Node l1, Node l2){
+
+        Node lastOne = new Node(0);
+        Node result = lastOne;
+        int outNum = 0;
+
+        while(l1 != null || l2 != null){
+
+            int first = (l1 == null) ? 0 : l1.value;
+            int second = (l2 == null) ? 0 : l2.value;
+            int sum = first + second + outNum;
+            int num = sum % 10;
+            outNum = sum / 10;
+
+            Node tmp = new Node(num);
+            lastOne.next = tmp;
+            lastOne = lastOne.next;
+            l1 = (l1 == null) ? null : l1.next;
+            l2 = (l2 == null) ? null : l2.next;
+        }
+        if(outNum > 0){
+            lastOne.next = new Node(1);
         }
 
         return result.next;
