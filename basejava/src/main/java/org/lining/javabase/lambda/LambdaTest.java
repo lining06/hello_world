@@ -4,6 +4,11 @@
  */
 package org.lining.javabase.lambda;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 /**
  * @author lining
  * @version $Id: LambdaTest.java, v 0.1 2019-11-29 4:41 PM lining Exp $
@@ -13,49 +18,87 @@ public class LambdaTest {
     final int ddd = 1;
 
     public static void main(String args[]){
-        int dd = 1;
+        //函数式接口的实现两种写法
 
-        LambdaTest tester = new LambdaTest();
+        //1、lambda写法
+        TestInterface c = (Integer x) -> { System.out.println(x);};
+        c.accept(123);
 
-        // 类型声明
-        MathOperation addition = (int a, int b) -> a + b + dd;
+        //2、匿名内部类写法
+        TestInterface a = new TestInterface(){
+            @Override
+            public void accept(Integer t){
+                System.out.println(t);
+            }
+        };
+        a.accept(456);
 
-//        dd = 0; 此处放开会报错
-        // 不用类型声明
-        MathOperation subtraction = (a, b) -> a - b;
+        //线程lambda写法
+        new Thread(
+                () -> {
+                    System.out.println("good");
+                }
+        ).start();
 
-        // 大括号中的返回语句
-        MathOperation multiplication = (int a, int b) -> { return a * b; };
 
-        // 没有大括号及返回语句
-        MathOperation division = (int a, int b) -> a / b;
+        //lambda foreach用法
+        //Old way:
+        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        for(Integer n: list) {
+//            System.out.println(n);
+        }
 
-        System.out.println("10 + 5 = " + tester.operate(10, 5, addition));
-        System.out.println("10 - 5 = " + tester.operate(10, 5, subtraction));
-        System.out.println("10 x 5 = " + tester.operate(10, 5, multiplication));
-        System.out.println("10 / 5 = " + tester.operate(10, 5, division));
+        //New way:
+//        list.forEach(n -> System.out.println(n));
 
-        // 不用括号
-        GreetingService greetService1 = message ->
-                System.out.println("Hello " + message);
 
-        // 用括号
-        GreetingService greetService2 = (message) ->
-                System.out.println("Hello " + message);
+        //or we can use :: double colon operator in Java 8
+//        list.forEach(System.out::println);
 
-        greetService1.sayMessage("Runoob");
-        greetService2.sayMessage("Google");
+        //lambda map用法
+//        list.stream().map(x -> 2 * x).map(x -> 3 * x).forEach(System.out::println);
+
+        int sum = list.stream().map(x -> 2 * x).reduce((x,y) -> x + y).get();
+        System.out.println(sum);
+
+
+        /**
+         *  Java8 中reduce的基本使用
+         *  1、初识 reduce 的基本 api
+         */
+        Stream<Integer> stream = Arrays.stream(new Integer[]{1, 2, 3, 4, 5, 6, 7, 8});
+
+        //求集合元素只和
+        Integer result = stream.reduce(0, Integer::sum);
+        System.out.println(result);
+
+        stream = Arrays.stream(new Integer[]{1, 2, 3, 4, 5, 6, 7});
+
+        //求和
+        stream.reduce((i, j) -> i + j).ifPresent(System.out::println);
+
+
+        stream = Arrays.stream(new Integer[]{1, 2, 3, 4, 5, 6, 7});
+        //求最大值
+        stream.reduce(Integer::max).ifPresent(System.out::println);
+
+        stream = Arrays.stream(new Integer[]{1, 2, 3, 4, 5, 6, 7});
+        //求最小值
+        stream.reduce(Integer::min).ifPresent(System.out::println);
+
+        stream = Arrays.stream(new Integer[]{1, 2, 3, 4, 5, 6, 7});
+        //做逻辑
+        stream.reduce((i, j) -> i > j ? j : i).ifPresent(System.out::println);
+
+        stream = Arrays.stream(new Integer[]{1, 2, 3, 4, 5, 6, 7});
+
+        //求逻辑求乘机
+        int result2 = stream.filter(i -> i % 2 == 0).reduce(1, (i, j) -> i * j);
+        Optional.of(result2).ifPresent(System.out::println);
+
+
+
     }
 
-    public interface MathOperation {
-        int operation(int a, int b);
-    }
 
-    public interface GreetingService {
-        void sayMessage(String message);
-    }
-
-    private int operate(int a, int b, MathOperation mathOperation){
-        return mathOperation.operation(a, b);
-    }
 }

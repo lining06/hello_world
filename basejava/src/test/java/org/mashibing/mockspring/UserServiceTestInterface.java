@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.mashibing.model.User;
 import org.mashibing.service.UserService;
 
-public class UserServiceTest {
+public class UserServiceTestInterface {
 
     @Test
     public void testAddUser() throws Exception{
